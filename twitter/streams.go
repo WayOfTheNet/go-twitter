@@ -12,10 +12,12 @@ import (
 )
 
 const (
-	userAgent    = "go-twitter v0.1"
-	publicStream = "https://stream.twitter.com/1.1/"
-	userStream   = "https://userstream.twitter.com/1.1/"
-	siteStream   = "https://sitestream.twitter.com/1.1/"
+	userAgent     = "go-twitter v0.1"
+	publicStream  = "https://stream.twitter.com/1.1/"
+	userStream    = "https://userstream.twitter.com/1.1/"
+	siteStream    = "https://sitestream.twitter.com/1.1/"
+	v2Stream      = "https://api.twitter.com/2/"
+	v2TweetStream = "tweets/search"
 )
 
 // StreamService provides methods for accessing the Twitter Streaming API.
@@ -24,6 +26,7 @@ type StreamService struct {
 	public *sling.Sling
 	user   *sling.Sling
 	site   *sling.Sling
+	stream *sling.Sling
 }
 
 // newStreamService returns a new StreamService.
@@ -34,6 +37,7 @@ func newStreamService(client *http.Client, sling *sling.Sling) *StreamService {
 		public: sling.New().Base(publicStream).Path("statuses/"),
 		user:   sling.New().Base(userStream),
 		site:   sling.New().Base(siteStream),
+		stream: sling.New().Base(v2Stream).Path(v2TweetStream),
 	}
 }
 
